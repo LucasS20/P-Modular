@@ -28,8 +28,7 @@ public class Main {
     static int contadorNumeroLinhasArquivo(String nomeArquivo) throws IOException {
         LineNumberReader lnr = new LineNumberReader(new FileReader(nomeArquivo));
         lnr.skip(Long.MAX_VALUE);
-        int numeroDeLinhas = lnr.getLineNumber();
-        return numeroDeLinhas;
+        return lnr.getLineNumber();
     }
 
     static void preencheVetorHabilidades(String[] vetorHabilidades) throws IOException {
@@ -54,10 +53,10 @@ public class Main {
         }
     }
 
-    static Candidato retornaMelhor(String habilidade, String[] vetorHabilidades, ListaDuplamenteEncadeada listaCandidatos) {
+    static void retornaMelhor(String habilidade, String[] vetorHabilidades, ListaDuplamenteEncadeada listaCandidatos) {
         int posicaoHabilidade = 0;
         for (int i = 0; i < vetorHabilidades.length; i++) {
-            if (vetorHabilidades[i] == habilidade) {
+            if (vetorHabilidades[i].equals(habilidade)) {
                 posicaoHabilidade = i;
             }
         }
@@ -70,12 +69,58 @@ public class Main {
                 maiorNota = celula.getItem().competencias[posicaoHabilidade];
                 melhorCandidato = celula.getItem();
             }
+            celula = celula.getProximo();
         }
-        return melhorCandidato;
+        System.out.println(melhorCandidato.nome);
     }
 
-    static Candidato retornaMelhor2(String habilidade, String[] vetorHabilidades, ListaDuplamenteEncadeada listaCandidatos) {
 
-        return null;
+    static void retornaMelhor(String habilidade, String habilidade2, String[] vetorHabilidades, ListaDuplamenteEncadeada listaCandidatos) {
+        int posicaoHabilidade1 = 0, posicaoHabilidade2 = 0;
+        for (int i = 0; i < vetorHabilidades.length; i++) {
+            if (vetorHabilidades[i].equals(habilidade)) {
+                posicaoHabilidade1 = i;
+            }
+        }
+        for (int i = 0; i < vetorHabilidades.length; i++) {
+            if (vetorHabilidades[i].equals(habilidade2)) {
+                posicaoHabilidade2 = i;
+            }
+        }
+        int somaNotas = 0, maiorSoma = 0;
+
+        Celula celula = listaCandidatos.getPrimeiro();
+        Candidato melhorCandidato = new Candidato();
+
+        while (celula.getProximo() != null) {
+            if (celula.getItem().competencias[posicaoHabilidade1] + celula.getItem().competencias[posicaoHabilidade2] > maiorSoma) {
+                melhorCandidato = celula.getItem();
+            }
+            celula = celula.getProximo();
+        }
+        System.out.println(melhorCandidato.nome);
+    }
+
+
+    static void retornaMelhorEmTudo(String habilidade, String[] vetorHabilidades, ListaDuplamenteEncadeada listaCandidatos) {
+
+        int maiorPontuação = 0;
+
+        Celula celula = listaCandidatos.getPrimeiro();
+        Candidato melhorCandidato = new Candidato();
+
+        while (celula.getProximo() != null) {
+            int pontuacaoCandidato = 0;
+            for (int i = 0; i < celula.getItem().competencias.length; i++) {
+                pontuacaoCandidato += celula.getItem().competencias[i];
+            }
+            if (pontuacaoCandidato > maiorPontuação) {
+                melhorCandidato = celula.getItem();
+            }
+            celula = celula.getProximo();
+        }
+        System.out.println(melhorCandidato.nome);
+
     }
 }
+
