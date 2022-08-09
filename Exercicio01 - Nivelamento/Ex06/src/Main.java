@@ -1,23 +1,42 @@
+import java.io.*;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.Calendar;
-import java.time.*;
-import java.time.DayOfWeek;
+
 
 public class Main {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        FileInputStream stream = new FileInputStream("src/arquivo.txt");
+        InputStreamReader reader = new InputStreamReader(stream);
+        BufferedReader br = new BufferedReader(reader);
+        String linha = br.readLine();
+
         Scanner inputUsuario = new Scanner(System.in);
         String dataUsuario = inputUsuario.next();
-        String[] vetorData = dataUsuario.split("/");
-        verificaData(dataUsuario);
-        retornarDiaSemana(Integer.parseInt(vetorData[2]),Integer.parseInt(vetorData[1]),Integer.parseInt(vetorData[0]));
+
+        int quantidadeLinhas = Integer.parseInt(linha);
+
+        for (int i = 0; i < quantidadeLinhas; i++) {
+            String[] vetorTexto = linha.split("/");
+            int[] vetorData = new int[3];
+            for (int j = 0; j < vetorTexto.length; i++) {
+                int temp = Integer.parseInt(vetorTexto[j]);
+                vetorData[j] = temp;
+            }
+            linha = br.readLine();
+            verificaData(linha);
+            retornarDiaSemana(2021, vetorData[1], vetorData[0]);
+        }
     }
+
+
 
     public static String retornarDiaSemana(int ano, int mes, int dia) {
 
-        Calendar calendario = new GregorianCalendar(2022, mes , dia);
+        Calendar calendario = new GregorianCalendar(2021, mes , dia);
         int diaSemana = calendario.get(Calendar.DAY_OF_WEEK);
 
         return pesquisarDiaSemana(diaSemana);
