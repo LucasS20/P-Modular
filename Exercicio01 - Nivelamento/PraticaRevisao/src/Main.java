@@ -54,4 +54,28 @@ public class Main {
         }
     }
 
+    static Candidato retornaMelhor(String habilidade, String[] vetorHabilidades, ListaDuplamenteEncadeada listaCandidatos) {
+        int posicaoHabilidade = 0;
+        for (int i = 0; i < vetorHabilidades.length; i++) {
+            if (vetorHabilidades[i] == habilidade) {
+                posicaoHabilidade = i;
+            }
+        }
+        int maiorNota = 0;
+        Celula celula = listaCandidatos.getPrimeiro();
+        Candidato melhorCandidato = new Candidato();
+
+        while (celula.getProximo() != null) {
+            if (celula.getItem().competencias[posicaoHabilidade] > maiorNota) {
+                maiorNota = celula.getItem().competencias[posicaoHabilidade];
+                melhorCandidato = celula.getItem();
+            }
+        }
+        return melhorCandidato;
+    }
+
+    static Candidato retornaMelhor2(String habilidade, String[] vetorHabilidades, ListaDuplamenteEncadeada listaCandidatos) {
+
+        return null;
+    }
 }

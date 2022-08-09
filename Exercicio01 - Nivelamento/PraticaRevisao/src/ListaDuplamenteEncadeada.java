@@ -2,6 +2,31 @@ class ListaDuplamenteEncadeada {
 
 	private Celula primeiro;
 	private Celula ultimo;
+
+	public Celula getPrimeiro() {
+		return primeiro;
+	}
+
+	public void setPrimeiro(Celula primeiro) {
+		this.primeiro = primeiro;
+	}
+
+	public Celula getUltimo() {
+		return ultimo;
+	}
+
+	public void setUltimo(Celula ultimo) {
+		this.ultimo = ultimo;
+	}
+
+	public int getTamanho() {
+		return tamanho;
+	}
+
+	public void setTamanho(int tamanho) {
+		this.tamanho = tamanho;
+	}
+
 	private int tamanho;
 
 	public ListaDuplamenteEncadeada() {
