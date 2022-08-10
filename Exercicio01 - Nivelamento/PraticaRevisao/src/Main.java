@@ -7,13 +7,12 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         ListaDuplamenteEncadeada listaCandidatos = new ListaDuplamenteEncadeada();
-
         Habilidade[] vetorHabilidades = preencheVetorHabilidades();
 
         encherLista(listaCandidatos, vetorHabilidades);
-        listaCandidatos.mostrar();
-        System.out.println(ListaDuplamenteEncadeada.retornaMelhor(retornaPosicaoVetor(vetorHabilidades, "Gerência de projetos"), listaCandidatos).getNome());
-
+        System.out.println("O melhor candidato para essa competência é: " + ListaDuplamenteEncadeada.retornaMelhor(retornaPosicaoVetor(vetorHabilidades, "Back-end"), listaCandidatos).getNome());
+        System.out.println("O melhor nas duas competências" + ListaDuplamenteEncadeada.retornaMelhorDuas(retornaPosicaoVetor(vetorHabilidades, "Python"), retornaPosicaoVetor(vetorHabilidades, "Back-end"), listaCandidatos).getNome());
+        System.out.println("O melhor em tudo: " + ListaDuplamenteEncadeada.retornaMelhorTudo(listaCandidatos).getNome());
     }
 
     static int retornaPosicaoVetor(Habilidade[] vetorHabilidades, String habilidade) {

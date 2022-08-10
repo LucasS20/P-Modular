@@ -175,19 +175,63 @@ class ListaDuplamenteEncadeada {
             throw new Exception("Não foi possível imprimir o conteúdo da lista: a lista está vazia!");
     }
 
-    static Candidato retornaMelhor(int posicaoVetorHabilidades, ListaDuplamenteEncadeada lista) {
-        Candidato melhorCandidato = lista.getPrimeiro().getItem();
-        int maiorNota = 0;
 
-        Celula aux = lista.getPrimeiro().getProximo();
-        while (aux != null) {
-            if (maiorNota > aux.getItem().competencias[posicaoVetorHabilidades]) {
-                maiorNota = aux.getItem().competencias[posicaoVetorHabilidades];
-                melhorCandidato = aux.getItem();
+    static Candidato retornaMelhorTudo(ListaDuplamenteEncadeada lista) {
+        Candidato melhorCandidato = lista.getUltimo().getItem();
+        int maiorNota = 0;
+        int totalCandidato = 0;
+        Celula aux = lista.getUltimo();
+        while (aux != lista.getPrimeiro()) {
+            for (int i = 0; i < aux.getItem().competencias.length; i++) {
+                totalCandidato = totalCandidato + aux.getItem().competencias[i];
             }
-            aux = aux.getProximo();
+            if (totalCandidato > maiorNota) {
+                maiorNota=totalCandidato;
+                melhorCandidato=aux.getItem();
+            }
+
+            totalCandidato = 0;
+            aux = aux.getAnterior();
+
         }
 
+        return melhorCandidato;
+    }
+
+
+    static Candidato retornaMelhor(int posicaoVetorHabilidades, ListaDuplamenteEncadeada lista) {
+        Candidato melhorCandidato = lista.getUltimo().getItem();
+        int maiorNota1 = 0;
+
+        Celula aux = lista.getPrimeiro().getProximo();
+        while (aux != lista.getPrimeiro()) {
+            if (maiorNota1 < aux.getItem().competencias[posicaoVetorHabilidades]) {
+                maiorNota1 = aux.getItem().competencias[posicaoVetorHabilidades];
+                melhorCandidato = aux.getItem();
+            }
+            aux = aux.getAnterior();
+        }
+
+        return melhorCandidato;
+    }
+
+    static Candidato retornaMelhorDuas(int posicaoVetorHabilidades, int posicaoVetorHabilidades2, ListaDuplamenteEncadeada lista) {
+        Candidato melhorCandidato = lista.getUltimo().getItem();
+        int maiorNota1 = 0, maiorNota2 = 0;
+
+        Celula aux = lista.getPrimeiro().getProximo();
+        while (aux != lista.getPrimeiro()) {
+            if (maiorNota1 < aux.getItem().competencias[posicaoVetorHabilidades]) {
+                maiorNota1 = aux.getItem().competencias[posicaoVetorHabilidades];
+                melhorCandidato = aux.getItem();
+            } else if (maiorNota1 == aux.getItem().competencias[posicaoVetorHabilidades]) {
+                if (melhorCandidato.competencias[posicaoVetorHabilidades2] < aux.getItem().competencias[posicaoVetorHabilidades2]) {
+                    melhorCandidato = aux.getItem();
+
+                }
+            }
+            aux = aux.getAnterior();
+        }
 
         return melhorCandidato;
     }
