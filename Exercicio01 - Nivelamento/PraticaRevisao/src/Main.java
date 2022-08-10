@@ -2,48 +2,38 @@ import java.io.*;
 
 public class Main {
 
+    public static final String arquivoHabilidades = "src/Habilidades.txt";
+    public static final String arquivoCandidatos = "src/Candidatos.txt";
+
     public static void main(String[] args) throws Exception {
         ListaDuplamenteEncadeada listaCandidatos = new ListaDuplamenteEncadeada();
-        String arquivoHabilidades = "src/Habilidades.txt";
-        String arquivoCandidatos = "src/Candidatos.txt";
-        int numeroDeHabilidades = contadorNumeroLinhasArquivo(arquivoHabilidades);
 
-        String[] vetorHabilidades = new String[contadorNumeroLinhasArquivo(arquivoHabilidades)];
-        preencheVetorHabilidades(vetorHabilidades);
+        Habilidade[] vetorHabilidades = preencheVetorHabilidades();
 
-        encherLista(listaCandidatos, arquivoCandidatos, arquivoHabilidades);
+        encherLista(listaCandidatos, vetorHabilidades);
         listaCandidatos.mostrar();
 
     }
 
-    static void encherLista(ListaDuplamenteEncadeada listaCandidatos, String arquivoCandidatos, String arquivoHabilidades) throws IOException {
-        for (int i = 0; i < contadorNumeroLinhasArquivo(arquivoCandidatos); i++) {
-            Candidato candidatoParaInserir = new Candidato(contadorNumeroLinhasArquivo(arquivoHabilidades));
-            candidatoParaInserir.preencherCandidato(candidatoParaInserir, lerLinha(arquivoCandidatos));
+    static void encherLista(ListaDuplamenteEncadeada listaCandidatos, Habilidade[] vetorHabilidades) throws IOException {
+        var leitor = new Leitor(arquivoCandidatos);
+        var numeroLinhasArquivo = leitor.obterNumeroLinhasArquivo(arquivoCandidatos);
+        for (int i = 0; i < numeroLinhasArquivo; i++) {
+            Candidato candidatoParaInserir = new Candidato(vetorHabilidades.length);
+            candidatoParaInserir.preencherCandidato(candidatoParaInserir, leitor.lerLinha());
             listaCandidatos.inserirFim(candidatoParaInserir);
         }
     }
 
+    static Habilidade[] preencheVetorHabilidades() throws IOException {
+        var leitor = new Leitor(arquivoHabilidades);
+        var habilidades = new Habilidade[leitor.obterNumeroLinhasArquivo(arquivoHabilidades)];
 
-    static int contadorNumeroLinhasArquivo(String nomeArquivo) throws IOException {
-        LineNumberReader lnr = new LineNumberReader(new FileReader(nomeArquivo));
-        lnr.skip(Long.MAX_VALUE);
-        return lnr.getLineNumber();
-    }
-
-    static void preencheVetorHabilidades(String[] vetorHabilidades) throws IOException {
-
-        for (int i = 0; i < vetorHabilidades.length; i++) {
-            vetorHabilidades[i] = lerLinha("src/Habilidades.txt");
+        for (int i = 0; i < habilidades.length; i++) {
+            var habilidade = new Habilidade(leitor.lerLinha());
+            habilidades[i] = habilidade;
         }
-    }
-
-    static String lerLinha(String caminhoArquivo) throws IOException {
-        FileInputStream stream = new FileInputStream(caminhoArquivo);
-        InputStreamReader reader = new InputStreamReader(stream);
-        BufferedReader br = new BufferedReader(reader);
-        String linha = br.readLine();
-        return linha;
+        return habilidades;
     }
 
     static void imprimeVetor(String[] vetor) {

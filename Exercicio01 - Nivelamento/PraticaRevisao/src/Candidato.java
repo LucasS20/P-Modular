@@ -13,32 +13,32 @@ public class Candidato {
     String nome;
     int[] competencias;
 
-    Candidato() {
+    public Candidato() {
         this.nome = "nome";
         competencias = new int[0];
     }
 
-    Candidato(int numeroCompetencias) {  //Construtor
+    public Candidato(int numeroCompetencias) {  //Construtor
         this.nome = "nome";
         competencias = new int[numeroCompetencias];
     }
 
-    Candidato preencherCandidato(Candidato objetoCandidato,String linhaInput) throws IOException {
+    Candidato preencherCandidato(Candidato objetoCandidato, String linhaInput) throws IOException {
 
         Candidato objetoPreenchido = null;
 
 
-            String[] dadosCandidato = linhaInput.split(";");
-            this.setNome(dadosCandidato[0]);
+        String[] dadosCandidato = linhaInput.split(";");
+        this.setNome(dadosCandidato[0]);
 
-            for (int j = 0; j < dadosCandidato.length - 1; j++) {
-                dadosCandidato[j] = dadosCandidato[j + 1];
-            }
+        for (int i = 0; i < dadosCandidato.length - 1; i++) {
+            dadosCandidato[i] = dadosCandidato[i + 1];
+        }
 //FIM DA GAMBIARRA
-            for (int j = 0; j < objetoCandidato.competencias.length; j++) {
-                int pontosHabilidade = Integer.parseInt(dadosCandidato[j]);
-                this.competencias[j] = pontosHabilidade;
-            }
+        for (int i = 0; i < objetoCandidato.competencias.length-1; i++) {
+            int pontosHabilidade = Integer.parseInt(dadosCandidato[i]);
+            this.competencias[i] = pontosHabilidade;
+        }
         objetoPreenchido = objetoCandidato;
 
         return objetoPreenchido;
@@ -51,5 +51,5 @@ public class Candidato {
         }
     }
 
-    }
+}
 
