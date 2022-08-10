@@ -12,10 +12,21 @@ public class Main {
 
         encherLista(listaCandidatos, vetorHabilidades);
         listaCandidatos.mostrar();
+        System.out.println(ListaDuplamenteEncadeada.retornaMelhor(retornaPosicaoVetor(vetorHabilidades, "Gerência de projetos"), listaCandidatos).getNome());
 
     }
 
-    static void encherLista(ListaDuplamenteEncadeada listaCandidatos, Habilidade[] vetorHabilidades) throws IOException {
+    static int retornaPosicaoVetor(Habilidade[] vetorHabilidades, String habilidade) {
+        int posicaoHabilidade = 0;
+        for (int i = 0; i < vetorHabilidades.length; i++) {
+            if (vetorHabilidades[i].getNome().equals(habilidade)) {
+                posicaoHabilidade = i;
+            }
+        }
+        return posicaoHabilidade;
+    }
+
+    static ListaDuplamenteEncadeada encherLista(ListaDuplamenteEncadeada listaCandidatos, Habilidade[] vetorHabilidades) throws IOException {
         var leitor = new Leitor(arquivoCandidatos);
         var numeroLinhasArquivo = leitor.obterNumeroLinhasArquivo(arquivoCandidatos);
         for (int i = 0; i < numeroLinhasArquivo; i++) {
@@ -23,6 +34,7 @@ public class Main {
             candidatoParaInserir.preencherCandidato(candidatoParaInserir, leitor.lerLinha());
             listaCandidatos.inserirFim(candidatoParaInserir);
         }
+        return listaCandidatos;
     }
 
     static Habilidade[] preencheVetorHabilidades() throws IOException {
@@ -41,27 +53,6 @@ public class Main {
         for (int i = 0; i < vetor.length; i++) {
             System.out.println((i + 1) + " - " + vetor[i]);
         }
-    }
-
-    static void retornaMelhor(String habilidade, String[] vetorHabilidades, ListaDuplamenteEncadeada listaCandidatos) {
-        int posicaoHabilidade = 0;
-        for (int i = 0; i < vetorHabilidades.length; i++) {
-            if (vetorHabilidades[i].equals(habilidade)) {
-                posicaoHabilidade = i;
-            }
-        }
-        int maiorNota = 0;
-        Celula celula = listaCandidatos.getPrimeiro();
-        Candidato melhorCandidato = new Candidato();
-
-        while (celula.getProximo() != null) {
-            if (celula.getItem().competencias[posicaoHabilidade] > maiorNota) {
-                maiorNota = celula.getItem().competencias[posicaoHabilidade];
-                melhorCandidato = celula.getItem();
-            }
-            celula = celula.getProximo();
-        }
-        System.out.println(melhorCandidato.nome);
     }
 
 

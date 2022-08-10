@@ -1,177 +1,196 @@
 class ListaDuplamenteEncadeada {
 
-	private Celula primeiro;
-	private Celula ultimo;
+    private Celula primeiro;
+    private Celula ultimo;
 
-	public Celula getPrimeiro() {
-		return primeiro;
-	}
+    public Celula getPrimeiro() {
+        return primeiro;
+    }
 
-	public void setPrimeiro(Celula primeiro) {
-		this.primeiro = primeiro;
-	}
+    public void setPrimeiro(Celula primeiro) {
+        this.primeiro = primeiro;
+    }
 
-	public Celula getUltimo() {
-		return ultimo;
-	}
+    public Celula getUltimo() {
+        return ultimo;
+    }
 
-	public void setUltimo(Celula ultimo) {
-		this.ultimo = ultimo;
-	}
+    public void setUltimo(Celula ultimo) {
+        this.ultimo = ultimo;
+    }
 
-	public int getTamanho() {
-		return tamanho;
-	}
+    public int getTamanho() {
+        return tamanho;
+    }
 
-	public void setTamanho(int tamanho) {
-		this.tamanho = tamanho;
-	}
+    public void setTamanho(int tamanho) {
+        this.tamanho = tamanho;
+    }
 
-	private int tamanho;
+    private int tamanho;
 
-	public ListaDuplamenteEncadeada() {
+    public ListaDuplamenteEncadeada() {
 
-		Celula sentinela;
+        Celula sentinela;
 
-		sentinela = new Celula();
-		primeiro = sentinela;
-		ultimo = sentinela;
+        sentinela = new Celula();
+        primeiro = sentinela;
+        ultimo = sentinela;
 
-		tamanho = 0;
-	}
+        tamanho = 0;
+    }
 
-	public boolean listaVazia() {
-		return primeiro == ultimo;
-	}
+    public boolean listaVazia() {
+        return primeiro == ultimo;
+    }
 
-	public void inserir(Candidato novo, int posicao) throws Exception {
+    public void inserir(Candidato novo, int posicao) throws Exception {
 
-		Celula anterior, novaCelula, proximaCelula;
+        Celula anterior, novaCelula, proximaCelula;
 
-		if ((posicao >= 0) && (posicao <= tamanho)) {
-			anterior = primeiro;
-			for (int i = 0; i < posicao; i++)
-				anterior = anterior.getProximo();
+        if ((posicao >= 0) && (posicao <= tamanho)) {
+            anterior = primeiro;
+            for (int i = 0; i < posicao; i++)
+                anterior = anterior.getProximo();
 
-			novaCelula = new Celula(novo);
+            novaCelula = new Celula(novo);
 
-			proximaCelula = anterior.getProximo();
+            proximaCelula = anterior.getProximo();
 
-			anterior.setProximo(novaCelula);
-			novaCelula.setProximo(proximaCelula);
+            anterior.setProximo(novaCelula);
+            novaCelula.setProximo(proximaCelula);
 
-			proximaCelula.setAnterior(novaCelula);
-			novaCelula.setAnterior(anterior);
+            proximaCelula.setAnterior(novaCelula);
+            novaCelula.setAnterior(anterior);
 
-			if (posicao == tamanho)
-				ultimo = novaCelula;
+            if (posicao == tamanho)
+                ultimo = novaCelula;
 
-			tamanho++;
+            tamanho++;
 
-		} else
-			throw new Exception("Não foi possível inserir o item na lista: a posição informada é inválida!");
-	}
+        } else
+            throw new Exception("Não foi possível inserir o item na lista: a posição informada é inválida!");
+    }
 
-	public void inserirInicio(Candidato Candidato) {
-		Celula novaCelula = new Celula(Candidato);
+    public void inserirInicio(Candidato Candidato) {
+        Celula novaCelula = new Celula(Candidato);
 
-		primeiro.getProximo().setAnterior(novaCelula);
-		novaCelula.setProximo(primeiro.getProximo());
-		novaCelula.setAnterior(primeiro);
-		primeiro.setProximo(novaCelula);
+        primeiro.getProximo().setAnterior(novaCelula);
+        novaCelula.setProximo(primeiro.getProximo());
+        novaCelula.setAnterior(primeiro);
+        primeiro.setProximo(novaCelula);
 
-		tamanho++;
-	}
+        tamanho++;
+    }
 
-	public void inserirFim(Candidato Candidato) {
-		Celula novaCelula = new Celula(Candidato);
+    public void inserirFim(Candidato Candidato) {
+        Celula novaCelula = new Celula(Candidato);
 
-		ultimo.setProximo(novaCelula);
-		novaCelula.setAnterior(ultimo);
-		ultimo = novaCelula;
+        ultimo.setProximo(novaCelula);
+        novaCelula.setAnterior(ultimo);
+        ultimo = novaCelula;
 
-		tamanho++;
-	}
+        tamanho++;
+    }
 
-	public Candidato remover(int posicao) throws Exception {
-		Celula removida, ant, pro;
+    public Candidato remover(int posicao) throws Exception {
+        Celula removida, ant, pro;
 
-		if (!listaVazia()) {
-			if (posicao <= tamanho) {
-				removida = primeiro.getProximo();
-				for (int i = 0; i < posicao; i++)
-					removida = removida.getProximo();
+        if (!listaVazia()) {
+            if (posicao <= tamanho) {
+                removida = primeiro.getProximo();
+                for (int i = 0; i < posicao; i++)
+                    removida = removida.getProximo();
 
-				if (!(removida == ultimo)) {
-					ant = removida.getAnterior();
-					pro = removida.getProximo();
+                if (!(removida == ultimo)) {
+                    ant = removida.getAnterior();
+                    pro = removida.getProximo();
 
-					ant.setProximo(pro);
-					pro.setAnterior(ant);
+                    ant.setProximo(pro);
+                    pro.setAnterior(ant);
 
-					removida.setAnterior(null);
-					removida.setProximo(null);
-					return removida.getItem();
-				} else
-					return removerFim();
+                    removida.setAnterior(null);
+                    removida.setProximo(null);
+                    return removida.getItem();
+                } else
+                    return removerFim();
 
-			} else
-				throw new Exception(
-						"Não foi possível remover o item " + posicao + " da lista: a lista não possui valores na posicao!");
-		} else
-			throw new Exception("Não foi possível remover o último item da lista: a lista está vazia!");
-	}
+            } else
+                throw new Exception(
+                        "Não foi possível remover o item " + posicao + " da lista: a lista não possui valores na posicao!");
+        } else
+            throw new Exception("Não foi possível remover o último item da lista: a lista está vazia!");
+    }
 
-	public Candidato removerInicio() throws Exception {
-		Celula removida;
+    public Candidato removerInicio() throws Exception {
+        Celula removida;
 
-		if (!listaVazia()) {
+        if (!listaVazia()) {
 
-			removida = primeiro.getProximo();
-			removida.getProximo().setAnterior(primeiro);
-			primeiro.setProximo(removida.getProximo());
+            removida = primeiro.getProximo();
+            removida.getProximo().setAnterior(primeiro);
+            primeiro.setProximo(removida.getProximo());
 
-			removida.setAnterior(null);
-			removida.setProximo(null);
+            removida.setAnterior(null);
+            removida.setProximo(null);
 
-			tamanho--;
+            tamanho--;
 
-			return removida.getItem();
-		} else
-			throw new Exception("Não foi possível remover o último item da lista: a lista está vazia!");
-	}
+            return removida.getItem();
+        } else
+            throw new Exception("Não foi possível remover o último item da lista: a lista está vazia!");
+    }
 
-	public Candidato removerFim() throws Exception {
-		Celula removida, penultima;
+    public Candidato removerFim() throws Exception {
+        Celula removida, penultima;
 
-		if (!listaVazia()) {
-			removida = ultimo;
+        if (!listaVazia()) {
+            removida = ultimo;
 
-			penultima = ultimo.getAnterior();
-			penultima.setProximo(null);
-			removida.setAnterior(null);
+            penultima = ultimo.getAnterior();
+            penultima.setProximo(null);
+            removida.setAnterior(null);
 
-			ultimo = penultima;
+            ultimo = penultima;
 
-			tamanho--;
+            tamanho--;
 
-			return (removida.getItem());
-		} else
-			throw new Exception("Não foi possível remover o último item da lista: a lista está vazia!");
-	}
+            return (removida.getItem());
+        } else
+            throw new Exception("Não foi possível remover o último item da lista: a lista está vazia!");
+    }
 
-	public void mostrar() throws Exception {
-		Celula aux;
-		int posicao = 0;
+    public void mostrar() throws Exception {
+        Celula aux;
+        int posicao = 0;
 
-		if (!listaVazia()) {
-			aux = primeiro.getProximo();
-			while (aux != null) {
-				System.out.print("[" + (posicao++) + "]");
-				aux.getItem().imprimir();
-				aux = aux.getProximo();
-			}
-		} else
-			throw new Exception("Não foi possível imprimir o conteúdo da lista: a lista está vazia!");
-	}
+        if (!listaVazia()) {
+            aux = primeiro.getProximo();
+            while (aux != null) {
+                System.out.print("[" + (posicao++) + "]");
+                aux.getItem().imprimir();
+                aux = aux.getProximo();
+            }
+        } else
+            throw new Exception("Não foi possível imprimir o conteúdo da lista: a lista está vazia!");
+    }
+
+    static Candidato retornaMelhor(int posicaoVetorHabilidades, ListaDuplamenteEncadeada lista) {
+        Candidato melhorCandidato = lista.getPrimeiro().getItem();
+        int maiorNota = 0;
+
+        Celula aux = lista.getPrimeiro().getProximo();
+        while (aux != null) {
+            if (maiorNota > aux.getItem().competencias[posicaoVetorHabilidades]) {
+                maiorNota = aux.getItem().competencias[posicaoVetorHabilidades];
+                melhorCandidato = aux.getItem();
+            }
+            aux = aux.getProximo();
+        }
+
+
+        return melhorCandidato;
+    }
+
+
 }

@@ -34,8 +34,7 @@ public class Candidato {
         for (int i = 0; i < dadosCandidato.length - 1; i++) {
             dadosCandidato[i] = dadosCandidato[i + 1];
         }
-//FIM DA GAMBIARRA
-        for (int i = 0; i < objetoCandidato.competencias.length-1; i++) {
+        for (int i = 0; i < objetoCandidato.competencias.length; i++) {
             int pontosHabilidade = Integer.parseInt(dadosCandidato[i]);
             this.competencias[i] = pontosHabilidade;
         }
