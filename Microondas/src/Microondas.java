@@ -1,23 +1,29 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 public class Microondas {
-    private static int minutos;
-    private static int segundos;
+
+    private static int tempo;
     private static boolean porta;
     private static boolean ligado;
 
-    Microondas(int minutos, int segundos) {
-        this.init(minutos, segundos);
+    Microondas(String tempo) {
+        this.init(tempo);
     }
 
-    private void init(int minutos, int segundos) {
-        Microondas.minutos = minutos;
-        Microondas.segundos = segundos;
+    private void init(String tempo) {
+        atualizaTempo(tempo);
         porta = false;
         ligado = false;
+    }
+
+    public void atualizaTempo(String tempo) {
+        String[] tempoInput = tempo.split(":");
+        int[] vetorTempo = new int[tempoInput.length];
+        for (int i = 0; i < tempoInput.length; i++) {
+            vetorTempo[i] = Integer.parseInt(tempoInput[i]);
+        }
+        Microondas.tempo = vetorTempo[0] * 60 + vetorTempo[1] % 60;
+        if (Microondas.tempo <= 0) {
+            desligar();
+        }
     }
 
     public void abrirPorta() {
@@ -26,31 +32,42 @@ public class Microondas {
         } else {
             System.out.println("A porta não pode ser aberta");
         }
-
     }
 
-    public void imprimirEstado() {
-        System.out.println(minutos);
-        System.out.println(segundos);
-        System.out.println(porta);
-        System.out.println(ligado);
+    public void fecharPorta() {
+        if (porta) {
+            porta = false;
+        } else {
+            System.out.println("A porta não pode ser aberta");
+        }
+
     }
 
     public void ligar() {
         if (!porta && !ligado) {
             ligado = true;
         } else {
-            System.out.println("O microondas não pode ser ligado pois a porta está aberta");
+            System.out.println("Não é possivel ligar o microondas");
         }
 
     }
 
     public void desligar() {
-        if (ligado) {
-            ligado = false;
-        } else {
-            System.out.println("O microondas já está desligado");
-        }
+        ligado = false;
+    }
 
+
+    //GETTERS
+
+    public static int getTempo() {
+        return tempo;
+    }
+
+    public static boolean isLigado() {
+        return ligado;
+    }
+
+    public static boolean isPorta() {
+        return porta;
     }
 }
