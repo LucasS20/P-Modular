@@ -56,6 +56,24 @@ public class Microondas {
         ligado = false;
     }
 
+
+    /**
+     * Metodo para transformar o tempo no formato mm:ss em um numero inteiro com o total de segundos
+     *
+     * @param tempo Tempo que o Microondas terá no formato mm:ss
+     */
+    public void formataTempo(String tempo) {
+        String[] tempoInput = tempo.split(":");
+        int[] vetorTempo = new int[tempoInput.length];
+        for (int i = 0; i < tempoInput.length; i++) {
+            vetorTempo[i] = Integer.parseInt(tempoInput[i]);
+        }
+        Microondas.tempo = vetorTempo[0] * 60 + vetorTempo[1] % 60;
+        if (Microondas.tempo <= 0) {
+            desligar();
+        }
+    }
+
     /**
      * Passa o tempo informado pelo usuário, e desliga em caso do tempo a passar for maior que o tempo restante do microondas.
      *
@@ -82,23 +100,6 @@ public class Microondas {
         formataTempo(tempo);
         porta = false;
         ligado = false;
-    }
-
-    /**
-     * Metodo para transformar o tempo no formato mm:ss em um numero inteiro com o total de segundos
-     *
-     * @param tempo Tempo que o Microondas terá no formato mm:ss
-     */
-    public void formataTempo(String tempo) {
-        String[] tempoInput = tempo.split(":");
-        int[] vetorTempo = new int[tempoInput.length];
-        for (int i = 0; i < tempoInput.length; i++) {
-            vetorTempo[i] = Integer.parseInt(tempoInput[i]);
-        }
-        Microondas.tempo = vetorTempo[0] * 60 + vetorTempo[1] % 60;
-        if (Microondas.tempo <= 0) {
-            desligar();
-        }
     }
 
 
