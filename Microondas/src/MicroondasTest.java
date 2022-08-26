@@ -8,32 +8,58 @@ public class MicroondasTest {
 
     @BeforeEach
     public void criarMicroondas() {
-        microondas = new Microondas("1:30");
+        microondas = new Microondas("5:00");
     }
 
     @Test
-    void testarCriacaoMicroondas() {
-        Assert.assertEquals(Microondas.getTempo(), 90);
+    public void testarCriacaoMicroondas() {
+        Assert.assertEquals(Microondas.getTempo(), 300);
     }
+
     @Test
-    void testeAbrirPortaFuncionando(){
+    public void abrirPorta() {
+        microondas.abrirPorta();
+        Assert.assertTrue(Microondas.isPorta());
+    }
+
+    @Test
+    public void fecharPorta() {
+        microondas.abrirPorta();
+        microondas.fecharPorta();
+        Assert.assertFalse(Microondas.isPorta());
+    }
+
+    @Test
+    public void testeAbrirPortaFuncionando() {
         microondas.ligar();
         microondas.abrirPorta();
         Assert.assertFalse(Microondas.isPorta());
     }
 
     @Test
-    void testeLigarPortaAberta() {
+    public void testeLigarPortaAberta() {
         microondas.abrirPorta();
         microondas.ligar();
         Assert.assertFalse(Microondas.isLigado());
     }
 
     @Test
-    void testeDesligarMicroondasTempo() {
+    public void atualizarTempofuncionamento() {
+        microondas.formataTempo("5:00");
+        Assert.assertEquals(Microondas.getTempo(), 300);
+    }
+
+    @Test
+    public void testeDesligarMicroondasTempo() {
         microondas.ligar();
-        microondas.atualizaTempo("0:00");
+        microondas.formataTempo("0:00");
         Assert.assertFalse(Microondas.isLigado());
+    }
+
+    @Test
+    public void passarTempoAte() {
+        microondas.passarTempo(60);
+        Assert.assertEquals(Microondas.getTempo(), 240);
     }
 
 
