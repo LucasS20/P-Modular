@@ -6,7 +6,7 @@ public class LivroDigital extends Livro {
         this.autor = autor;
         this.tipoLivro = tipoLivro;
         this.precoBase = precoBase;
-        Livro.copiasVendidas = copiasVendidas;
+        this.copiasVendidas = copiasVendidas;
         calculaPrecoVenda();
     }
 

@@ -12,7 +12,7 @@ public class LivroFisico extends Livro {
         this.tipoLivro = tipoLivro;
         this.precoBase = precoBase;
         this.capa = capa;
-        Livro.copiasVendidas = copiasVendidas;
+        this.copiasVendidas = copiasVendidas;
         this.numeroPaginas = numeroPaginas;
         calculaPrecoVenda();
     }

@@ -1,6 +1,4 @@
 public abstract class Livro {
-
-
     protected int codigo;
     protected String titulo;
     protected String autor;
@@ -8,11 +6,11 @@ public abstract class Livro {
     protected String tipoLivro;
     protected double precoBase;
     protected double precoVenda;
-    protected static int copiasVendidas;
+    protected int copiasVendidas;
 
     protected abstract void calculaPrecoVenda();
 
-    public static int getCopiasVendidas() {
+    public int getCopiasVendidas() {
         return copiasVendidas;
     }
 

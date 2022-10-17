@@ -21,10 +21,10 @@ public class Autor {
     private double calculaArrecadacaoTotal() {
         double arrecadacaoTotal = 0;
         for (Livro obra : listaObrasFisicas) {
-            arrecadacaoTotal += Livro.getCopiasVendidas() * obra.precoVenda;
+            arrecadacaoTotal += obra.getCopiasVendidas() * obra.precoVenda;
         }
         for (Livro obra : listaObrasDigitais) {
-            arrecadacaoTotal += Livro.getCopiasVendidas() * obra.precoVenda;
+            arrecadacaoTotal += obra.getCopiasVendidas() * obra.precoVenda;
         }
         Autor.arrecadacaoTotal = arrecadacaoTotal;
         return arrecadacaoTotal;
@@ -34,12 +34,12 @@ public class Autor {
         double arrecadacao = 0;
         for (Livro livro : listaObrasDigitais) {
             if (livro.titulo.equals(nomeLivro)) {
-                arrecadacao += livro.precoVenda * Livro.getCopiasVendidas() * DIREITO_AUTORAL;
+                arrecadacao += livro.precoVenda * livro.getCopiasVendidas() * DIREITO_AUTORAL;
             }
         }
         for (Livro livro : listaObrasFisicas) {
             if (livro.titulo.equals(nomeLivro)) {
-                arrecadacao += livro.precoVenda * Livro.getCopiasVendidas() * DIREITO_AUTORAL;
+                arrecadacao += livro.precoVenda * livro.getCopiasVendidas() * DIREITO_AUTORAL;
             }
         }
         return arrecadacao;

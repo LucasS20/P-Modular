@@ -4,35 +4,45 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static ArrayList<Autor> autores = new ArrayList<>();
-    private static ArrayList<LivroDigital> livrosDigitais = new ArrayList<>();
-    private static ArrayList<LivroFisico> livrosFisicos = new ArrayList<>();
+    private static final ArrayList<Autor> autores = new ArrayList<>();
+    private static final ArrayList<LivroDigital> livrosDigitais = new ArrayList<>();
+    private static final ArrayList<LivroFisico> livrosFisicos = new ArrayList<>();
+
+    private static final ArrayList<Livro> livros = new ArrayList<>();
     private static Scanner scanner;
 
     public static void main(String[] args) throws IOException {
-
-        scanner = new Scanner(System.in);
-
-        ArquivoTextoLeitura arquivoInput = new ArquivoTextoLeitura("src/LIVROS_PM.TXT");
-        preencherLivros(arquivoInput);
-        preencherAutores();
+        scanner = controiScannerSystemIn();
+        inicializarDados();
         menu();
     }
 
+    private static Scanner controiScannerSystemIn() {
+        return new Scanner(System.in);
+    }
+
+    private static void inicializarDados() throws IOException {
+        ArquivoTextoLeitura arquivoInput = new ArquivoTextoLeitura("src/LIVROS_PM.TXT");
+        preencherLivros(arquivoInput);
+        preencherAutores();
+    }
+
     private static void menu() {
-        Scanner scanner = new Scanner(System.in);
+        printaMenu();
+        int inputUsuario = scanner.nextInt();
+        escolhasMenu(inputUsuario);
+    }
+
+    private static void printaMenu() {
         System.out.println("MENU");
         System.out.println("Selecione uma opção");
         System.out.println("1 - Pesquisar Livro");
         System.out.println("2 - Pesquisar Autor");
         System.out.println("3 - Vender Livro");
-        System.out.println("-1 para Sair");
-        int inputUsuario = scanner.nextInt();
-        escolhasMenu(inputUsuario);
+        System.out.println("-1 para Sair"); //trocar para esq
     }
 
     private static void escolhasMenu(int inputUsuario) {
-        Scanner scanner = new Scanner(System.in);
         switch (inputUsuario) {
             case 1 -> buscaDadosLivro();
             case 2 -> buscaDadosAutor();
@@ -42,12 +52,14 @@ public class Main {
 
     private static void buscaDadosLivro() {
         System.out.println("Digite o nome do Livro");
-        String nomeLivro = scanner.next();
+        scanner = controiScannerSystemIn();
+        String nomeLivro = scanner.nextLine();
         pesquisarLivro(nomeLivro);
     }
 
     private static void buscaDadosAutor() {
         System.out.println("Digite o nome do Autor");
+        scanner = controiScannerSystemIn();
         String nomeAutor = scanner.nextLine();
         pesquisarAutor(nomeAutor);
 
@@ -55,33 +67,43 @@ public class Main {
 
     private static void selecionaLivroVendido() {
         System.out.println("Digite o nome do Livro a ser vendido");
+        scanner = controiScannerSystemIn();
         String nomeLivroVenda = scanner.nextLine();
         System.out.println("O livro foi vendido, a quantidade de copias vendidas agora é :" + venderLivro(nomeLivroVenda));
     }
 
     public static void pesquisarAutor(String nomeAutor) {
+        Autor autorEncontrado = null;
         for (Autor autor : autores) {
             if (autor.getNome().equals(nomeAutor)) {
-                System.out.println(autor);
+                autorEncontrado = autor;
             }
-
         }
+        if (autorEncontrado != null)
+            System.out.println(autorEncontrado);
+        else
+            System.out.println("Nenhum autor foi encontrado");
+
     }
 
     public static void pesquisarLivro(String nomeLivro) {
-
-        for (LivroFisico livro : livrosFisicos) {
-            if (livro.titulo.equals(nomeLivro)) {
-                System.out.println(livro);
+        Livro livro = null;
+        for (LivroFisico livroFisico : livrosFisicos) {
+            if (livroFisico.titulo.equals(nomeLivro)) {
+                livro = livroFisico;
                 break;
             }
         }
-        for (LivroDigital livro : livrosDigitais) {
-            if (livro.titulo.equals(nomeLivro)) {
-                System.out.println(livro);
+        for (LivroDigital livroDigital : livrosDigitais) {
+            if (livroDigital.titulo.equals(nomeLivro)) {
+                livro = livroDigital;
                 break;
             }
         }
+        if (livro != null)
+            System.out.println(livro);
+        else
+            System.out.println("O livro não foi encontrado");
     }
 
 
@@ -93,11 +115,11 @@ public class Main {
     public static int venderLivro(String nomeLivro) {
         for (Livro livro : livrosFisicos) {
             if (livro.titulo.equals(nomeLivro)) {
-                Livro.copiasVendidas += 1;
-                break;
+                livro.copiasVendidas += 1;
+                return  livro.copiasVendidas;
             }
         }
-        return Livro.copiasVendidas;
+        return 0;
     }
 
     private static void preencherAutores() {
