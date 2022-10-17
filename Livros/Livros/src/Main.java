@@ -5,9 +5,6 @@ import java.util.Scanner;
 public class Main {
 
     private static final ArrayList<Autor> autores = new ArrayList<>();
-    private static final ArrayList<LivroDigital> livrosDigitais = new ArrayList<>();
-    private static final ArrayList<LivroFisico> livrosFisicos = new ArrayList<>();
-
     private static final ArrayList<Livro> livros = new ArrayList<>();
     private static Scanner scanner;
 
@@ -28,9 +25,13 @@ public class Main {
     }
 
     private static void menu() {
-        printaMenu();
-        int inputUsuario = scanner.nextInt();
-        escolhasMenu(inputUsuario);
+        int inputUsuario = 0;
+        while (inputUsuario != -1) {
+            printaMenu();
+            inputUsuario = scanner.nextInt();
+            escolhasMenu(inputUsuario);
+        }
+
     }
 
     private static void printaMenu() {
@@ -62,44 +63,36 @@ public class Main {
         scanner = controiScannerSystemIn();
         String nomeAutor = scanner.nextLine();
         pesquisarAutor(nomeAutor);
-
     }
 
     private static void selecionaLivroVendido() {
         System.out.println("Digite o nome do Livro a ser vendido");
         scanner = controiScannerSystemIn();
         String nomeLivroVenda = scanner.nextLine();
-        System.out.println("O livro foi vendido, a quantidade de copias vendidas agora é :" + venderLivro(nomeLivroVenda));
+        venderLivro(nomeLivroVenda);
     }
 
     public static void pesquisarAutor(String nomeAutor) {
-        Autor autorEncontrado = null;
-        for (Autor autor : autores) {
-            if (autor.getNome().equals(nomeAutor)) {
-                autorEncontrado = autor;
-            }
-        }
-        if (autorEncontrado != null)
-            System.out.println(autorEncontrado);
+
+        Autor autor = autores.stream()
+                .filter(a -> a.getNome().equals(nomeAutor))
+                .findFirst()
+                .orElse(null);
+
+        if (autor != null)
+            System.out.println(autor);
         else
             System.out.println("Nenhum autor foi encontrado");
 
     }
 
     public static void pesquisarLivro(String nomeLivro) {
-        Livro livro = null;
-        for (LivroFisico livroFisico : livrosFisicos) {
-            if (livroFisico.titulo.equals(nomeLivro)) {
-                livro = livroFisico;
-                break;
-            }
-        }
-        for (LivroDigital livroDigital : livrosDigitais) {
-            if (livroDigital.titulo.equals(nomeLivro)) {
-                livro = livroDigital;
-                break;
-            }
-        }
+
+        Livro livro = livros.stream()
+                .filter(l -> l.titulo.equals(nomeLivro))
+                .findFirst()
+                .orElse(null);
+
         if (livro != null)
             System.out.println(livro);
         else
@@ -108,22 +101,27 @@ public class Main {
 
 
     /**
-     * Método que itera a quantidade de copias vendidas de um livro
+     * Método que itera a quantidade de cópias vendidas de um livro
      *
      * @param nomeLivro Titulo do livro
      */
-    public static int venderLivro(String nomeLivro) {
-        for (Livro livro : livrosFisicos) {
-            if (livro.titulo.equals(nomeLivro)) {
-                livro.copiasVendidas += 1;
-                return  livro.copiasVendidas;
-            }
-        }
-        return 0;
+    public static void venderLivro(String nomeLivro) {
+        Livro livro = livros.stream()
+                .filter(l -> l.titulo.equals(nomeLivro))
+                .findFirst()
+                .orElse(null);
+
+
+        if (livro != null) {
+            livro.copiasVendidas++;
+            System.out.println("O livro foi vendido, a quantidade de copias vendidas agora é :" + livro.copiasVendidas);
+        } else
+            System.out.println("O livro não foi encontrado");
+
     }
 
     private static void preencherAutores() {
-        for (LivroFisico livro : livrosFisicos) {
+        for (Livro livro : livros) {
             Autor autor = new Autor(livro.autor);
             autores.add(autor);
         }
@@ -147,16 +145,16 @@ public class Main {
 
     private static void insereFisico(String[] vetorEntrada) {
         LivroFisico livro = new LivroFisico(Integer.parseInt(vetorEntrada[0]), vetorEntrada[1], vetorEntrada[2], vetorEntrada[3], Double.parseDouble(vetorEntrada[4]), Double.parseDouble(vetorEntrada[5]), Integer.parseInt(vetorEntrada[6]), Integer.parseInt(vetorEntrada[7]));
-        livrosFisicos.add(livro);
+        livros.add(livro);
     }
 
     private static void insereComAutorRepetido(String[] vetorEntrada) {
         LivroFisico livro = new LivroFisico(Integer.parseInt(vetorEntrada[0]), vetorEntrada[1], "ROWLING", vetorEntrada[2], Double.parseDouble(vetorEntrada[3]), Double.parseDouble(vetorEntrada[4]), Integer.parseInt(vetorEntrada[5]), Integer.parseInt(vetorEntrada[6]));
-        livrosFisicos.add(livro);
+        livros.add(livro);
     }
 
     private static void insereDigital(String[] vetorEntrada) {
         LivroDigital livro = new LivroDigital(Integer.parseInt(vetorEntrada[0]), vetorEntrada[1], vetorEntrada[2], vetorEntrada[3], Double.parseDouble(vetorEntrada[4]), Integer.parseInt(vetorEntrada[5]));
-        livrosDigitais.add(livro);
+        livros.add(livro);
     }
 }
